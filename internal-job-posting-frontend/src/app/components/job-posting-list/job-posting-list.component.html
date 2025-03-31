@@ -1,0 +1,102 @@
+<div class="job-listings-container">
+  <h2 class="title">Available Job Postings</h2>
+
+  <div class="filters">
+    <div class="filter-item">
+      <label for="locationFilter">Location</label>
+      <div class="filter-input-wrapper">
+        <input
+          type="text"
+          id="locationFilter"
+          class="form-control"
+          placeholder="Filter by location"
+          [(ngModel)]="locationFilter"
+          (keyup.enter)="searchByLocation()">
+        <button (click)="searchByLocation()" class="btn btn-outline-primary">Search</button>
+      </div>
+    </div>
+
+    <div class="filter-item">
+      <label for="departmentFilter">Department</label>
+      <div class="filter-input-wrapper">
+        <input
+          type="text"
+          id="departmentFilter"
+          class="form-control"
+          placeholder="Filter by department"
+          [(ngModel)]="departmentFilter"
+          (keyup.enter)="searchByDepartment()">
+        <button (click)="searchByDepartment()" class="btn btn-outline-primary">Search</button>
+      </div>
+    </div>
+
+    <div class="filter-item">
+      <label for="employmentTypeFilter">Employment Type</label>
+      <div class="filter-input-wrapper">
+        <select
+          id="employmentTypeFilter"
+          class="form-control"
+          [(ngModel)]="employmentTypeFilter"
+          (change)="searchByEmploymentType()">
+          <option value="">All Employment Types</option>
+          <option *ngFor="let type of employmentTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="reset-filter">
+      <button (click)="resetFilters()" class="btn btn-secondary">Reset All Filters</button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && jobPostings.length === 0" class="no-results">
+    <p>No job postings found matching your criteria.</p>
+  </div>
+
+  <div class="job-list">
+    <div *ngFor="let job of jobPostings" class="job-card">
+      <div class="job-header">
+        <h3>{{ job.title }}</h3>
+        <div class="job-actions">
+          <button (click)="deleteJob(job.id)" class="btn btn-sm btn-danger">Delete</button>
+        </div>
+      </div>
+
+      <div class="job-details">
+        <div class="detail-row">
+          <span class="label">Department:</span>
+          <span class="value">{{ job.department }}</span>
+        </div>
+
+        <div class="detail-row">
+          <span class="label">Location:</span>
+          <span class="value">{{ job.location }}</span>
+        </div>
+
+        <div class="detail-row">
+          <span class="label">Salary:</span>
+          <span class="value">{{ job.salary | currency }}</span>
+        </div>
+
+        <div class="detail-row">
+          <span class="label">Employment Type:</span>
+          <span class="value">{{ job.employmentType }}</span>
+        </div>
+      </div>
+
+      <div class="job-description">
+        <p>{{ job.description }}</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<div class="registration-container">
+  <div class="card">
+    <h2>Candidate Registration</h2>
+
+    <div *ngIf="submitSuccess" class="alert success">
+      Registration successful! Redirecting to candidates list...
+    </div>
+
+    <div *ngIf="submitError" class="alert error">
+      {{ submitError }}
+    </div>
+
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Full Name *</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          placeholder="Enter your Full Name"
+          [class.invalid]="nameControl?.invalid && nameControl?.touched">
+        <div class="error-message" *ngIf="nameControl?.invalid && nameControl?.touched">
+          <span *ngIf="nameControl?.errors?.['required']">Name is required</span>
+          <span *ngIf="nameControl?.errors?.['minlength']">Name must be at least 2 characters</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          placeholder="Enter your Email Address"
+          [class.invalid]="emailControl?.invalid && emailControl?.touched">
+        <div class="error-message" *ngIf="emailControl?.invalid && emailControl?.touched">
+          <span *ngIf="emailControl?.errors?.['required']">Email is required</span>
+          <span *ngIf="emailControl?.errors?.['email']">Please enter a valid email address</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="resume">Resume URL *</label>
+        <input
+          type="text"
+          id="resumeUrl"
+          formControlName="resumeUrl"
+          placeholder="Enter your Resume URL"
+          [class.invalid]="resumeUrlControl?.invalid && resumeUrlControl?.touched">
+        <div class="error-message" *ngIf="resumeUrlControl?.invalid && resumeUrlControl?.touched">
+          <span *ngIf="resumeUrlControl?.errors?.['required']">Resume is required</span>
+          <span *ngIf="resumeUrlControl?.errors?.['email']">Please enter a valid resume url</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          [disabled]="isSubmitting"
+          class="submit-button">
+          <span *ngIf="!isSubmitting">Register</span>
+          <span *ngIf="isSubmitting">Registering...</span>
+        </button>
+        <button
+          type="button"
+          class="cancel-button"
+          routerLink="/candidates">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

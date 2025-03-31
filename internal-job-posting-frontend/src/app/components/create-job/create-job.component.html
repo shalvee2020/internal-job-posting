@@ -1,0 +1,131 @@
+<div class="create-job-container">
+  <div class="job-form-card">
+    <h2>Create New Job Posting</h2>
+
+    <div *ngIf="submitSuccess" class="alert success">
+      Job posting created successfully! Redirecting to job listings...
+    </div>
+
+    <div *ngIf="errorMessage" class="alert error">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="jobForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="title">Job Title *</label>
+          <input
+            type="text"
+            id="title"
+            formControlName="title"
+            placeholder="Enter Job Title"
+            [class.invalid]="titleControl?.invalid && titleControl?.touched">
+          <div class="error-message" *ngIf="titleControl?.invalid && titleControl?.touched">
+            <span *ngIf="titleControl?.errors?.['required']">Job title is required</span>
+            <span *ngIf="titleControl?.errors?.['minlength']">Title must be at least 5 characters</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="department">Department *</label>
+          <input
+            type="text"
+            id="department"
+            formControlName="department"
+            placeholder="Enter Department"
+            [class.invalid]="departmentControl?.invalid && departmentControl?.touched">
+          <div class="error-message" *ngIf="departmentControl?.invalid && departmentControl?.touched">
+            <span *ngIf="departmentControl?.errors?.['required']">Department is required</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="location">Location *</label>
+          <input
+            type="text"
+            id="location"
+            formControlName="location"
+            placeholder="Enter Job Location"
+            [class.invalid]="locationControl?.invalid && locationControl?.touched">
+          <div class="error-message" *ngIf="locationControl?.invalid && locationControl?.touched">
+            <span *ngIf="locationControl?.errors?.['required']">Location is required</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="employmentType">Employment Type *</label>
+          <select
+            id="employmentType"
+            formControlName="employmentType"
+            [class.invalid]="employmentTypeControl?.invalid && employmentTypeControl?.touched">
+            <option *ngFor="let type of employmentTypes" [value]="type">{{ type }}</option>
+          </select>
+          <div class="error-message" *ngIf="employmentTypeControl?.invalid && employmentTypeControl?.touched">
+            <span *ngIf="employmentTypeControl?.errors?.['required']">Employment type is required</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="salary">Salary *</label>
+          <input
+            type="text"
+            id="salary"
+            formControlName="salary"
+            placeholder="Enter Salary (numbers only)"
+            [class.invalid]="salaryControl?.invalid && salaryControl?.touched">
+          <div class="error-message" *ngIf="salaryControl?.invalid && salaryControl?.touched">
+            <span *ngIf="salaryControl?.errors?.['required']">Salary is required</span>
+            <span *ngIf="salaryControl?.errors?.['pattern']">Please enter a valid number</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="jobId">Job Id *</label>
+          <input
+            type="text"
+            id="jobId"
+            formControlName="jobId"
+            placeholder="Enter Job ID"
+            [class.invalid]="jobIdControl?.invalid && jobIdControl?.touched">
+          <div class="error-message" *ngIf="jobIdControl?.invalid && jobIdControl?.touched">
+            <span *ngIf="jobIdControl?.errors?.['required']">Job ID is required</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Job Description *</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          rows="5"
+          placeholder="Enter detailed job description"
+          [class.invalid]="descriptionControl?.invalid && descriptionControl?.touched"></textarea>
+        <div class="error-message" *ngIf="descriptionControl?.invalid && descriptionControl?.touched">
+          <span *ngIf="descriptionControl?.errors?.['required']">Job description is required</span>
+          <span *ngIf="descriptionControl?.errors?.['minlength']">Description must be at least 20 characters</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          [disabled]="isSubmitting"
+          class="submit-button">
+          <span *ngIf="!isSubmitting">Create Job Posting</span>
+          <span *ngIf="isSubmitting">Creating...</span>
+        </button>
+        <button
+          type="button"
+          class="cancel-button"
+          routerLink="/jobs">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

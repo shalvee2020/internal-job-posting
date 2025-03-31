@@ -1,0 +1,38 @@
+<div class="candidates-container">
+  <div class="header">
+    <h2>Candidate Database</h2>
+    <button class="add-btn" routerLink="/registration">Register Candidate</button>
+  </div>
+
+  <div class="filters-section">
+    <div class="search-box">
+      <input type="text" placeholder="Search by name or email..."  [(ngModel)]="searchTerm" (input)="applyFilters()">
+    </div>
+    <button class="reset-btn" (click)="resetFilters()">Reset Filters</button>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <p>Loading candidates...</p>
+  </div>
+
+  <div *ngIf="!loading && !error && filteredCandidates.length === 0" class="no-data">
+    <p *ngIf="searchTerm">No candidates match your search criteria.</p>
+    <p *ngIf="!searchTerm">No candidates found in the system.</p>
+  </div>
+
+  <div *ngIf="!loading && !error && filteredCandidates.length > 0" class="candidate-list">
+    <div *ngFor="let candidate of filteredCandidates" class="candidate-card">
+      <div class="candidate-header">
+        <h3>{{ candidate.name }}</h3>
+        <div class="candidate-actions">
+          <button class="delete-btn" (click)="deleteCandidate(candidate.id!)">Delete</button>
+        </div>
+      </div>
+
+      <p class="contact"><strong>Email:</strong> {{ candidate.email }}</p>
+      <p class="resume" *ngIf="candidate.resumeUrl">
+        <strong>Resume:</strong> <a [href]="candidate.resumeUrl" target="_blank">View Resume</a>
+      </p>
+    </div>
+  </div>
+</div>
